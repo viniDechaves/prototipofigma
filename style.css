@@ -2,3 +2,9 @@ header {
     background-color: #000000;
     color: red;
 }
+.cabecalho-lista-item{
+    display: inline-block;
+    margin: 0 16px;
+    font-size: 100px;
+}
+
