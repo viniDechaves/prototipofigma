@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show do Milhão</title>
+    <title>Cruzadinha</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Show do Milhão</h1>
-        <div class="question" id="question"></div>
-        <ul class="options" id="options"></ul>
-        <button onclick="checkAnswer()">Responder</button>
+        <h1>Cruzadinha</h1>
+        <div class="cruzadinha">
+            <div class="palavra-horizontal" id="horizontal-1">
+                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 1)">
+                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 2)">
+                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 3)">
+                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 4)">
+                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 5)">
+            </div>
+            <div class="palavra-vertical" id="vertical-1">
+                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 1)">
+                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 2)">
+                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 3)">
+                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 4)">
+                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 5)">
+            </div>
+        </div>
         <div id="result"></div>
     </div>
 

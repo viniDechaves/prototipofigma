@@ -18,36 +18,24 @@ h1 {
     text-align: center;
 }
 
-.question {
-    margin-bottom: 20px;
-    text-align: center;
+.cruzadinha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.options {
-    list-style-type: none;
-    padding: 0;
-}
-
-.options li {
+.palavra-horizontal,
+.palavra-vertical {
+    display: flex;
     margin-bottom: 10px;
 }
 
-button {
-    display: block;
-    margin: 0 auto;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#result {
+input[type="text"] {
+    width: 30px;
+    height: 30px;
+    text-transform: uppercase;
     text-align: center;
-    margin-top: 20px;
+    font-size: 18px;
+    margin: 0 5px;
 }
