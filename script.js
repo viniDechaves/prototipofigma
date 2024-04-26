@@ -13,7 +13,23 @@ var questions = [
         question: "Quem escreveu 'Dom Quixote'?",
         options: ["a) William Shakespeare", "b) Miguel de Cervantes", "c) Charles Dickens", "d) Dante Alighieri"],
         correctAnswer: "b"
-    }
+    },
+    // Adicione mais perguntas conforme desejado
+    {
+        question: "Qual é a moeda oficial do Japão?",
+        options: ["a) Yuan", "b) Dólar", "c) Euro", "d) Iene"],
+        correctAnswer: "d"
+    },
+    {
+        question: "Quem pintou 'Mona Lisa'?",
+        options: ["a) Leonardo da Vinci", "b) Pablo Picasso", "c) Vincent van Gogh", "d) Michelangelo"],
+        correctAnswer: "a"
+    },
+    {
+        question: "Em que ano a Primeira Guerra Mundial começou?",
+        options: ["a) 1914", "b) 1918", "c) 1939", "d) 1945"],
+        correctAnswer: "a"
+    },
     // Adicione mais perguntas conforme desejado
 ];
 
@@ -45,27 +61,4 @@ function checkAnswer() {
     if (selectedOption) {
         if (selectedOption.value === questions[currentQuestion].correctAnswer) {
             totalMoney += 1000;
-            document.getElementById("result").textContent = "Resposta correta! Você ganhou R$1.000!";
-        } else {
-            document.getElementById("result").textContent = "Resposta incorreta! Você não ganhou dinheiro desta vez.";
-        }
-        currentQuestion++;
-        if (currentQuestion < questions.length) {
-            displayQuestion();
-        } else {
-            endGame();
-        }
-    } else {
-        alert("Por favor, selecione uma opção.");
-    }
-}
-
-function endGame() {
-    document.getElementById("question").textContent = "Fim do jogo!";
-    document.getElementById("options").innerHTML = "";
-    document.getElementById("result").textContent = "Você ganhou um total de R$" + totalMoney + ".";
-}
-
-displayQuestion();
-
-
+            document.getElementById("result").textContent = "Resposta
