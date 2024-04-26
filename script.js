@@ -33,14 +33,18 @@ var questions = [
     // Adicione mais perguntas conforme desejado
 ];
 
-var currentQuestion = 0;
+var currentQuestionIndex = 0;
 var totalMoney = 0;
+
+function getRandomQuestion() {
+    return questions[Math.floor(Math.random() * questions.length)];
+}
 
 function displayQuestion() {
     var questionElement = document.getElementById("question");
     var optionsElement = document.getElementById("options");
-    var question = questions[currentQuestion];
 
+    var question = getRandomQuestion();
     questionElement.textContent = question.question;
 
     optionsElement.innerHTML = "";
@@ -59,6 +63,6 @@ function displayQuestion() {
 function checkAnswer() {
     var selectedOption = document.querySelector('input[name="option"]:checked');
     if (selectedOption) {
-        if (selectedOption.value === questions[currentQuestion].correctAnswer) {
-            totalMoney += 1000;
-            document.getElementById("result").textContent = "Resposta
+        var question = questions[currentQuestionIndex];
+        if (selectedOption.value === question.correctAnswer) {
+            totalMoney += 1000
