@@ -1,23 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const gameList = document.getElementById("game-list");
-    const addGameForm = document.getElementById("add-game-form");
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    const guessInput = document.getElementById("guess");
+    const checkButton = document.getElementById("check-btn");
+    const message = document.getElementById("message");
+    let attempts = 0;
 
-    addGameForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const gameNameInput = document.getElementById("game-name");
-        const gameCategoryInput = document.getElementById("game-category");
-        const gameName = gameNameInput.value;
-        const gameCategory = gameCategoryInput.value;
-        if (gameName && gameCategory) {
-            addGameToList(gameName, gameCategory);
-            gameNameInput.value = "";
-            gameCategoryInput.value = "";
+    checkButton.addEventListener("click", function() {
+        const guess = parseInt(guessInput.value);
+        if (isNaN(guess) || guess < 1 || guess > 100) {
+            message.textContent = "Por favor, insira um número válido entre 1 e 100.";
+        } else {
+            attempts++;
+            if (guess === randomNumber) {
+                message.textContent = `Parabéns! Você acertou o número em ${attempts} tentativas.`;
+                checkButton.disabled = true;
+            } else if (guess < randomNumber) {
+                message.textContent = "Tente um número maior.";
+            } else {
+                message.textContent = "Tente um número menor.";
+            }
         }
     });
-
-    function addGameToList(name, category) {
-        const li = document.createElement("li");
-        li.textContent = `${name} - ${category}`;
-        gameList.appendChild(li);
-    }
 });
+
