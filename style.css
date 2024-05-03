@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 #game-container {
@@ -8,8 +9,9 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: #000;
 }
 
 #game-canvas {
-    border: 1px solid black;
+    border: 1px solid #fff;
 }
