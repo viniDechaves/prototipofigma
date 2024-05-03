@@ -1,33 +1,29 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cruzadinha</title>
+    <title>Meu MMORPG Simples</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Cruzadinha</h1>
-        <div class="cruzadinha">
-            <div class="palavra-horizontal" id="horizontal-1">
-                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 1)">
-                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 2)">
-                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 3)">
-                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 4)">
-                <input type="text" maxlength="1" oninput="checkAnswer('horizontal', 5)">
-            </div>
-            <div class="palavra-vertical" id="vertical-1">
-                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 1)">
-                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 2)">
-                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 3)">
-                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 4)">
-                <input type="text" maxlength="1" oninput="checkAnswer('vertical', 5)">
-            </div>
+    <div id="game-container">
+        <h1>Bem-vindo ao Meu MMORPG Simples</h1>
+        <div id="player">
+            <h2>Jogador</h2>
+            <p>Nível: <span id="player-level">1</span></p>
+            <p>Vida: <span id="player-health">100</span></p>
         </div>
-        <div id="result"></div>
+        <div id="monsters">
+            <h2>Monstros</h2>
+            <button id="attack-btn">Atacar Monstro</button>
+            <p>Monstro Nível: <span id="monster-level">1</span></p>
+            <p>Vida do Monstro: <span id="monster-health">50</span></p>
+        </div>
+        <div id="log">
+            <!-- Aqui serão mostradas as mensagens de log -->
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
