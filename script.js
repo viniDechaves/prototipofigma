@@ -11,34 +11,37 @@ const player = {
     width: 20,
     height: 20,
     speed: 5,
-    direction: 'down'
+    direction: 'down',
+    weapon: 'sword'
 };
 
-const npc = {
-    x: 400,
-    y: 300,
-    width: 20,
-    height: 20
-};
+const monsters = [
+    { x: 200, y: 200, width: 30, height: 30, health: 100 },
+    { x: 400, y: 300, width: 30, height: 30, health: 100 }
+];
+
+const weapons = [
+    { name: 'sword', damage: 20 },
+    { name: 'axe', damage: 30 },
+    { name: 'bow', damage: 25 }
+];
 
 function drawPlayer() {
     ctx.fillStyle = 'red';
     ctx.fillRect(player.x, player.y, player.width, player.height);
 }
 
-function drawNPC() {
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(npc.x, npc.y, npc.width, npc.height);
-}
-
-function clearCanvas() {
-    ctx.clearRect(0, 0, mapWidth, mapHeight);
+function drawMonsters() {
+    ctx.fillStyle = 'green';
+    monsters.forEach(monster => {
+        ctx.fillRect(monster.x, monster.y, monster.width, monster.height);
+    });
 }
 
 function draw() {
     clearCanvas();
     drawPlayer();
-    drawNPC();
+    drawMonsters();
 }
 
 function update() {
@@ -59,16 +62,18 @@ function update() {
         player.direction = 'right';
     }
 
-    // Verifica colisão entre o jogador e o NPC
-    if (
-        player.x < npc.x + npc.width &&
-        player.x + player.width > npc.x &&
-        player.y < npc.y + npc.height &&
-        player.y + player.height > npc.y
-    ) {
-        // Se houver colisão, você poderia implementar algum tipo de interação com o NPC aqui
-        console.log('Você encontrou o NPC!');
-    }
+    // Verifica colisão entre o jogador e os monstros
+    monsters.forEach(monster => {
+        if (
+            player.x < monster.x + monster.width &&
+            player.x + player.width > monster.x &&
+            player.y < monster.y + monster.height &&
+            player.y + player.height > monster.y
+        ) {
+            // Se houver colisão, você poderia implementar o combate aqui
+            console.log('Combate!');
+        }
+    });
 }
 
 const keys = {};
@@ -81,6 +86,10 @@ window.addEventListener('keyup', function(e) {
     delete keys[e.key];
 });
 
+function clearCanvas() {
+    ctx.clearRect(0, 0, mapWidth, mapHeight);
+}
+
 function gameLoop() {
     update();
     draw();
@@ -88,3 +97,4 @@ function gameLoop() {
 }
 
 gameLoop();
+
