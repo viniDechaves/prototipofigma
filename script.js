@@ -1,43 +1,70 @@
-// Lógica do jogo em JavaScript aqui
-let playerLevel = 1;
-let playerHealth = 100;
+// Definindo variáveis globais para o jogo
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+const tileSize = 50;
+const numRows = 12;
+const numCols = 16;
+const mapWidth = numCols * tileSize;
+const mapHeight = numRows * tileSize;
+const player = {
+    x: 50,
+    y: 50,
+    width: 20,
+    height: 20,
+    speed: 5
+};
 
-let monsterLevel = 1;
-let monsterHealth = 50;
+// Função para desenhar o jogador
+function drawPlayer() {
+    ctx.fillStyle = 'red';
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+}
 
-document.getElementById('attack-btn').addEventListener('click', () => {
-    attackMonster();
+// Função para limpar o canvas
+function clearCanvas() {
+    ctx.clearRect(0, 0, mapWidth, mapHeight);
+}
+
+// Função para desenhar o jogo
+function draw() {
+    clearCanvas();
+    drawPlayer();
+}
+
+// Função para atualizar a posição do jogador
+function update() {
+    if (keys.ArrowUp && player.y > 0) {
+        player.y -= player.speed;
+    }
+    if (keys.ArrowDown && player.y < mapHeight - player.height) {
+        player.y += player.speed;
+    }
+    if (keys.ArrowLeft && player.x > 0) {
+        player.x -= player.speed;
+    }
+    if (keys.ArrowRight && player.x < mapWidth - player.width) {
+        player.x += player.speed;
+    }
+}
+
+// Definindo variáveis para controle de teclado
+const keys = {};
+
+// Event listeners para controlar as teclas pressionadas
+window.addEventListener('keydown', function(e) {
+    keys[e.key] = true;
 });
 
-function attackMonster() {
-    const playerDamage = Math.floor(Math.random() * 10) + 1;
-    monsterHealth -= playerDamage;
-    if (monsterHealth <= 0) {
-        monsterLevel++;
-        monsterHealth = 50 + (monsterLevel * 10);
-        logMessage("Você derrotou o monstro! Novo monstro apareceu.");
-    } else {
-        const monsterDamage = Math.floor(Math.random() * 8) + 1;
-        playerHealth -= monsterDamage;
-        if (playerHealth <= 0) {
-            logMessage("Você foi derrotado pelo monstro!");
-            // Reiniciar o jogo ou algo assim
-        } else {
-            logMessage(`Você causou ${playerDamage} de dano. O monstro causou ${monsterDamage} de dano.`);
-        }
-    }
-    updateUI();
+window.addEventListener('keyup', function(e) {
+    delete keys[e.key];
+});
+
+// Loop do jogo
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
 }
 
-function logMessage(message) {
-    const logElement = document.createElement('p');
-    logElement.textContent = message;
-    document.getElementById('log').appendChild(logElement);
-}
-
-function updateUI() {
-    document.getElementById('player-level').textContent = playerLevel;
-    document.getElementById('player-health').textContent = playerHealth;
-    document.getElementById('monster-level').textContent = monsterLevel;
-    document.getElementById('monster-health').textContent = monsterHealth;
-}
+// Inicialização do jogo
+gameLoop();

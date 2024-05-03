@@ -3,26 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu MMORPG Simples</title>
+    <title>MMORPG Simples</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="game-container">
-        <h1>Bem-vindo ao Meu MMORPG Simples</h1>
-        <div id="player">
-            <h2>Jogador</h2>
-            <p>Nível: <span id="player-level">1</span></p>
-            <p>Vida: <span id="player-health">100</span></p>
-        </div>
-        <div id="monsters">
-            <h2>Monstros</h2>
-            <button id="attack-btn">Atacar Monstro</button>
-            <p>Monstro Nível: <span id="monster-level">1</span></p>
-            <p>Vida do Monstro: <span id="monster-health">50</span></p>
-        </div>
-        <div id="log">
-            <!-- Aqui serão mostradas as mensagens de log -->
-        </div>
+        <canvas id="game-canvas" width="800" height="600"></canvas>
     </div>
     <script src="script.js"></script>
 </body>

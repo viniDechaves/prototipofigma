@@ -1,26 +1,15 @@
-/* Estilos CSS aqui */
-
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
 #game-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-#player, #monsters {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-#log {
-    border: 1px solid #ccc;
-    padding: 10px;
-    max-height: 200px;
-    overflow-y: auto;
+#game-canvas {
+    border: 1px solid black;
 }
