@@ -1,43 +1,64 @@
-const player = document.getElementById('player');
+const bird = document.querySelector('.bird');
+const pipe = document.querySelector('.pipe');
+const topPipe = document.querySelector('.pipe.top');
+const gameContainer = document.querySelector('.game-container');
 
-let isJumping = false;
-let gravity = 0.9;
-let isGameOver = false;
+let birdY = gameContainer.clientHeight / 2;
+let birdYVelocity = 0;
+let gravity = 0.6;
+let flapStrength = -10;
+let pipeX = gameContainer.clientWidth;
+let pipeWidth = 50;
+let pipeGap = 200;
+let pipeSpeed = 2;
+let score = 0;
 
-function jump() {
-    if (!isJumping && !isGameOver) {
-        isJumping = true;
-        let jumpCount = 0;
-        const jumpInterval = setInterval(() => {
-            const playerTop = parseInt(window.getComputedStyle(player).getPropertyValue('top'));
-            if (playerTop > 6 * 50 && jumpCount < 15) {
-                player.style.top = `${playerTop - 50}px`;
-            } else {
-                clearInterval(jumpInterval);
-                isJumping = false;
-                jumpCount = 0;
-            }
-            jumpCount++;
-        }, 30);
+function update() {
+    birdYVelocity += gravity;
+    birdY += birdYVelocity;
+    pipeX -= pipeSpeed;
+
+    if (pipeX < -pipeWidth) {
+        pipeX = gameContainer.clientWidth;
+        topPipe.style.height = Math.random() * (gameContainer.clientHeight - pipeGap) + 'px';
+        score++;
     }
+
+    if (birdY < 0 || birdY > gameContainer.clientHeight - 100) {
+        // Bird is out of bounds (top or bottom)
+        resetGame();
+    }
+
+    // Check collision with pipes
+    if (pipeX < 70 && pipeX + pipeWidth > 20) {
+        let pipeTopHeight = parseFloat(topPipe.style.height);
+        if (birdY < pipeTopHeight || birdY > pipeTopHeight + pipeGap) {
+            resetGame();
+        }
+    }
+
+    // Update DOM elements
+    bird.style.bottom = birdY + 'px';
+    pipe.style.left = pipeX + 'px';
+    topPipe.style.left = pipeX + 'px';
+    requestAnimationFrame(update);
 }
 
-document.addEventListener('keydown', (event) => {
+function flap() {
+    birdYVelocity = flapStrength;
+}
+
+function resetGame() {
+    birdY = gameContainer.clientHeight / 2;
+    birdYVelocity = 0;
+    pipeX = gameContainer.clientWidth;
+    score = 0;
+}
+
+document.addEventListener('keydown', function(event) {
     if (event.code === 'Space') {
-        jump();
+        flap();
     }
 });
 
-function gameLoop() {
-    const playerTop = parseInt(window.getComputedStyle(player).getPropertyValue('top'));
-    if (playerTop < (window.innerHeight - 50)) {
-        player.style.top = `${playerTop + gravity}px`;
-    }
-    if (playerTop >= (window.innerHeight - 50)) {
-        isGameOver = true;
-        alert("Game Over!");
-        location.reload(); // Reload the page to restart the game
-    }
-}
-
-setInterval(gameLoop, 20);
+update();
