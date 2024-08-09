@@ -1,7 +1,7 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: skyblue;
+    background: #87CEEB; /* Cor do céu */
 }
 
 .game-container {
@@ -9,45 +9,33 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-}
-
-.bird {
-    position: absolute;
-    width: 40px;
-    height: 30px;
-    background: url('https://image.shutterstock.com/image-vector/flappy-bird-icon-260nw-1568633127.jpg') no-repeat center center;
-    background-size: cover;
-    border-radius: 50%;
-    bottom: 50%;
-    left: 20%;
-}
-
-.pipe {
-    position: absolute;
-    width: 60px;
-    background: url('https://image.shutterstock.com/image-vector/pipe-icon-260nw-1568633125.jpg') no-repeat center center;
-    background-size: cover;
-}
-
-.pipe.top {
-    height: 300px;
-    top: 0;
-    bottom: auto;
+    background: #87CEEB; /* Cor do céu */
 }
 
 .ground {
     position: absolute;
     width: 100%;
     height: 100px;
-    background: #8B4513;
+    background: #8B4513; /* Cor do solo */
     bottom: 0;
 }
 
-.score {
+.mario {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 36px;
-    color: white;
-    font-family: Arial, sans-serif;
+    width: 50px;
+    height: 50px;
+    background: url('https://www.pngkit.com/png/full/199-1997462_mario-clipart.png') no-repeat center center;
+    background-size: cover;
+    bottom: 100px;
+    left: 50px;
+}
+
+.block {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: url('https://www.pngkit.com/png/full/109-1092231_question-block-mario-block.png') no-repeat center center;
+    background-size: cover;
+    bottom: 100px;
+    left: 200px;
 }

@@ -1,65 +1,90 @@
-const bird = document.querySelector('.bird');
-const pipe = document.querySelector('.pipe');
-const topPipe = document.querySelector('.pipe.top');
-const gameContainer = document.querySelector('.game-container');
-const scoreElement = document.querySelector('.score');
+const mario = document.querySelector('.mario');
+const block = document.querySelector('.block');
+const ground = document.querySelector('.ground');
 
-let birdY = gameContainer.clientHeight / 2;
-let birdYVelocity = 0;
-let gravity = 0.5;
-let flapStrength = -10;
-let pipeX = gameContainer.clientWidth;
-let pipeWidth = 60;
-let pipeGap = 200;
-let pipeSpeed = 2;
-let score = 0;
+let marioX = 50;
+let marioY = parseInt(window.getComputedStyle(mario).bottom, 10) || 100;
+let marioXVelocity = 0;
+let marioYVelocity = 0;
+let gravity = -0.5;
+let jumpStrength = 10;
+let isJumping = false;
+let marioWidth = mario.offsetWidth;
+let marioHeight = mario.offsetHeight;
+let blockX = parseInt(window.getComputedStyle(block).left, 10) || 200;
+let blockWidth = block.offsetWidth;
+let blockHeight = block.offsetHeight;
 
 function update() {
-    birdYVelocity += gravity;
-    birdY += birdYVelocity;
-    pipeX -= pipeSpeed;
+    // Atualiza a posição do Mario
+    marioX += marioXVelocity;
+    marioY += marioYVelocity;
 
-    if (pipeX < -pipeWidth) {
-        pipeX = gameContainer.clientWidth;
-        topPipe.style.height = Math.random() * (gameContainer.clientHeight - pipeGap - 100) + 'px';
-        score++;
-        scoreElement.textContent = score;
+    // Aplicar gravidade
+    if (marioY <= ground.offsetHeight + 100) {
+        marioY = ground.offsetHeight + 100;
+        marioYVelocity = 0;
+        isJumping = false;
+    } else {
+        marioYVelocity += gravity;
     }
 
-    if (birdY < 0 || birdY > gameContainer.clientHeight - 100) {
-        resetGame();
+    // Atualiza a posição do bloco (movimento simples)
+    blockX -= 2;
+    if (blockX < -blockWidth) {
+        blockX = window.innerWidth;
     }
 
-    if (pipeX < 80 && pipeX + pipeWidth > 20) {
-        let pipeTopHeight = parseFloat(topPipe.style.height);
-        if (birdY < pipeTopHeight || birdY > pipeTopHeight + pipeGap) {
-            resetGame();
-        }
+    // Verifica colisão com o bloco
+    if (marioX < blockX + blockWidth &&
+        marioX + marioWidth > blockX &&
+        marioY < blockHeight + ground.offsetHeight + 100) {
+        marioY = blockHeight + ground.offsetHeight + 100;
+        marioYVelocity = 0;
+        isJumping = false;
     }
 
-    bird.style.bottom = birdY + 'px';
-    pipe.style.left = pipeX + 'px';
-    topPipe.style.left = pipeX + 'px';
+    // Atualiza o estilo dos elementos
+    mario.style.left = marioX + 'px';
+    mario.style.bottom = marioY + 'px';
+    block.style.left = blockX + 'px';
+
     requestAnimationFrame(update);
 }
 
-function flap() {
-    birdYVelocity = flapStrength;
+function moveLeft() {
+    marioXVelocity = -5;
 }
 
-function resetGame() {
-    birdY = gameContainer.clientHeight / 2;
-    birdYVelocity = 0;
-    pipeX = gameContainer.clientWidth;
-    score = 0;
-    scoreElement.textContent = score;
+function moveRight() {
+    marioXVelocity = 5;
+}
+
+function jump() {
+    if (!isJumping) {
+        marioYVelocity = jumpStrength;
+        isJumping = true;
+    }
 }
 
 document.addEventListener('keydown', function(event) {
-    if (event.code === 'Space') {
-        flap();
+    switch (event.code) {
+        case 'ArrowLeft':
+            moveLeft();
+            break;
+        case 'ArrowRight':
+            moveRight();
+            break;
+        case 'Space':
+            jump();
+            break;
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+        marioXVelocity = 0;
     }
 });
 
 update();
-
