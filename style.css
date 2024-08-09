@@ -13,9 +13,10 @@ body {
 
 .bird {
     position: absolute;
-    width: 34px;
-    height: 24px;
-    background: yellow;
+    width: 40px;
+    height: 30px;
+    background: url('https://image.shutterstock.com/image-vector/flappy-bird-icon-260nw-1568633127.jpg') no-repeat center center;
+    background-size: cover;
     border-radius: 50%;
     bottom: 50%;
     left: 20%;
@@ -23,9 +24,9 @@ body {
 
 .pipe {
     position: absolute;
-    width: 50px;
-    background: green;
-    bottom: 0;
+    width: 60px;
+    background: url('https://image.shutterstock.com/image-vector/pipe-icon-260nw-1568633125.jpg') no-repeat center center;
+    background-size: cover;
 }
 
 .pipe.top {
@@ -38,6 +39,15 @@ body {
     position: absolute;
     width: 100%;
     height: 100px;
-    background: #333;
+    background: #8B4513;
     bottom: 0;
+}
+
+.score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 36px;
+    color: white;
+    font-family: Arial, sans-serif;
 }
