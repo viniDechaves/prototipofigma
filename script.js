@@ -1,124 +1,83 @@
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const snakeSize = 20;
-const foodSize = 20;
-let snake = [{ x: canvas.width / 2, y: canvas.height / 2 }];
-let food = { x: Math.random() * (canvas.width - foodSize), y: Math.random() * (canvas.height - foodSize) };
-let dx = snakeSize;
-let dy = 0;
-let score = 0;
-let changingDirection = false;
-
-document.addEventListener('keydown', changeDirection);
-
-function gameLoop() {
-    changingDirection = false;
-    moveSnake();
-    if (hasCollided()) {
-        resetGame();
-    } else {
-        if (hasEatenFood()) {
-            score += 10;
-            growSnake();
-            placeFood();
+// Configuração do jogo
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
         }
-        drawEverything();
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
     }
-    setTimeout(gameLoop, 100);
+};
+
+const playerSpeed = 200;
+const bulletSpeed = 300;
+const bulletDelay = 200;
+
+let player;
+let bullets;
+let lastFired = 0;
+
+const game = new Phaser.Game(config);
+
+function preload() {
+    this.load.image('sky', 'https://examples.phaser.io/assets/skies/space3.png');
+    this.load.image('player', 'https://examples.phaser.io/assets/sprites/dude.png');
+    this.load.image('bullet', 'https://examples.phaser.io/assets/particles/yellow.png');
 }
 
-function moveSnake() {
-    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-    snake.unshift(head);
-    snake.pop();
-}
+function create() {
+    this.add.image(400, 300, 'sky');
 
-function drawEverything() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'green';
-    snake.forEach(segment => {
-        ctx.fillRect(segment.x, segment.y, snakeSize, snakeSize);
+    // Adiciona o jogador
+    player = this.physics.add.sprite(400, 500, 'player');
+    player.setCollideWorldBounds(true);
+
+    // Adiciona as balas
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
+        maxSize: 10
     });
-    ctx.fillStyle = 'red';
-    ctx.fillRect(food.x, food.y, foodSize, foodSize);
-    ctx.fillStyle = 'white';
-    ctx.font = '20px Arial';
-    ctx.fillText('Score: ' + score, 10, 20);
+
+    // Configura as teclas
+    this.input.keyboard.on('keydown-LEFT', () => player.setVelocityX(-playerSpeed));
+    this.input.keyboard.on('keydown-RIGHT', () => player.setVelocityX(playerSpeed));
+    this.input.keyboard.on('keydown-UP', () => player.setVelocityY(-playerSpeed));
+    this.input.keyboard.on('keydown-DOWN', () => player.setVelocityY(playerSpeed));
+    this.input.keyboard.on('keyup-LEFT', () => player.setVelocityX(0));
+    this.input.keyboard.on('keyup-RIGHT', () => player.setVelocityX(0));
+    this.input.keyboard.on('keyup-UP', () => player.setVelocityY(0));
+    this.input.keyboard.on('keyup-DOWN', () => player.setVelocityY(0));
+    this.input.keyboard.on('keydown-SPACE', fireBullet, this);
+
+    // Adiciona colisões
+    this.physics.add.collider(bullets, player, hitPlayer, null, this);
 }
 
-function changeDirection(event) {
-    if (changingDirection) return;
-    changingDirection = true;
-
-    const keyPressed = event.code;
-    switch (keyPressed) {
-        case 'ArrowUp':
-            if (dy === 0) {
-                dx = 0;
-                dy = -snakeSize;
-            }
-            break;
-        case 'ArrowDown':
-            if (dy === 0) {
-                dx = 0;
-                dy = snakeSize;
-            }
-            break;
-        case 'ArrowLeft':
-            if (dx === 0) {
-                dx = -snakeSize;
-                dy = 0;
-            }
-            break;
-        case 'ArrowRight':
-            if (dx === 0) {
-                dx = snakeSize;
-                dy = 0;
-            }
-            break;
+function update(time) {
+    // Verifica se a tecla de atirar foi pressionada
+    if (this.input.keyboard.checkDown(this.input.keyboard.addKey('SPACE'), bulletDelay)) {
+        fireBullet();
     }
 }
 
-function hasCollided() {
-    const head = snake[0];
-    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
-        return true;
+function fireBullet() {
+    const bullet = bullets.get(player.x, player.y - 20);
+
+    if (bullet) {
+        bullet.setActive(true).setVisible(true);
+        bullet.setVelocityY(-bulletSpeed);
     }
-    for (let i = 1; i < snake.length; i++) {
-        if (head.x === snake[i].x && head.y === snake[i].y) {
-            return true;
-        }
-    }
-    return false;
 }
 
-function hasEatenFood() {
-    const head = snake[0];
-    return head.x < food.x + foodSize &&
-           head.x + snakeSize > food.x &&
-           head.y < food.y + foodSize &&
-           head.y + snakeSize > food.y;
+function hitPlayer(player, bullet) {
+    bullet.setActive(false).setVisible(false);
+    console.log('Hit!');
 }
-
-function growSnake() {
-    const tail = { ...snake[snake.length - 1] };
-    snake.push(tail);
-}
-
-function placeFood() {
-    food = { x: Math.random() * (canvas.width - foodSize), y: Math.random() * (canvas.height - foodSize) };
-}
-
-function resetGame() {
-    snake = [{ x: canvas.width / 2, y: canvas.height / 2 }];
-    dx = snakeSize;
-    dy = 0;
-    score = 0;
-    placeFood();
-}
-
-gameLoop();
