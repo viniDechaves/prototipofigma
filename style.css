@@ -1,41 +1,10 @@
 body {
     margin: 0;
+    padding: 0;
     overflow: hidden;
-    background: #87CEEB; /* Cor do céu */
+    background: #000;
 }
 
-.game-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background: #87CEEB; /* Cor do céu */
-}
-
-.ground {
-    position: absolute;
-    width: 100%;
-    height: 100px;
-    background: #8B4513; /* Cor do solo */
-    bottom: 0;
-}
-
-.mario {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: url('https://www.pngkit.com/png/full/199-1997462_mario-clipart.png') no-repeat center center;
-    background-size: cover;
-    bottom: 100px;
-    left: 50px;
-}
-
-.block {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: url('https://www.pngkit.com/png/full/109-1092231_question-block-mario-block.png') no-repeat center center;
-    background-size: cover;
-    bottom: 100px;
-    left: 200px;
+canvas {
+    display: block;
 }
